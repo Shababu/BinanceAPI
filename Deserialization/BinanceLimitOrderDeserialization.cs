@@ -50,8 +50,6 @@ namespace BinanceApiLibrary.Deserialization
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             double timestamp = Convert.ToDouble(timeString);
             return dateTime.AddMilliseconds(timestamp).ToLocalTime().ToString();
-
-            //return (new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(Convert.ToInt64(timeString))).AddHours(3).ToString();
         }
     }
 }
