@@ -21,7 +21,14 @@ namespace BinanceApiLibrary.Deserialization
         public static BinanceLimitOrderDeserialization DeserializeLimitOrder(string jsonString)
         {
             BinanceLimitOrderDeserialization limitOrder = JsonConvert.DeserializeObject<BinanceLimitOrderDeserialization>(jsonString);
-            limitOrder.ConvertedTime = ConvertOrderTime(limitOrder.TransactTime);
+            if (limitOrder.Time != null)
+            {
+                limitOrder.ConvertedTime = ConvertOrderTime(limitOrder.Time);
+            }
+            else
+            {
+                limitOrder.ConvertedTime = ConvertOrderTime(limitOrder.TransactTime);
+            }
             return limitOrder;
         }
 
@@ -40,7 +47,11 @@ namespace BinanceApiLibrary.Deserialization
 
         public static string ConvertOrderTime(string timeString)
         {
-            return (new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(Convert.ToInt64(timeString))).AddHours(3).ToString();
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            double timestamp = Convert.ToDouble(timeString);
+            return dateTime.AddMilliseconds(timestamp).ToLocalTime().ToString();
+
+            //return (new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(Convert.ToInt64(timeString))).AddHours(3).ToString();
         }
     }
 }

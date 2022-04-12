@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using BinanceApiLibrary.Deserialization;
 using TradingCommonTypes;
 
@@ -47,6 +48,22 @@ namespace BinanceApiLibrary
             };
 
             return limitOrder;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append($"Symbol: {Symbol}\n");
+            sb.Append($"Order Id: {OrderId}\n");
+            sb.Append($"Price: {Price}\n");
+            sb.Append($"Quantity: {Quantity}\n");
+            sb.Append($"ExecutedQty: {ExecutedQty}\n");
+            sb.Append($"Status: {Status}\n");
+            sb.Append($"Side: {Side}\n");
+            sb.Append($"Time: {Time}\n");
+
+            return sb.ToString();
         }
     }
 }
