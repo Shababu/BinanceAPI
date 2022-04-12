@@ -17,6 +17,8 @@
     <Copyright>Copyright (c) Shababus 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageId>BinanceAPI</PackageId>
+    <Product>BinanceAPI</Product>
   </PropertyGroup>
 
   <ItemGroup>
