@@ -324,6 +324,7 @@ ask Price: 39909,96000000, Quantity: 0,01049000
 ### Example 1 (Place limit order):
 
 ~~~C#
+BinanceApiUser user = new BinanceApiUser("public API key", "private API key");
 BinanceTrader binanceTrader = new BinanceTrader();
 ILimitOrder limitOrder = binanceTrader.PlaceNewLimitOrder(user, "SHIBUSDT", Sides.SELL, 3000000, 0.00004M);
 
@@ -346,6 +347,7 @@ Time: 12.04.2022 18:26:20
 ### Example 2 (Place limit order, Get info about the placed order, Cancel order):
 
 ~~~C#
+BinanceApiUser user = new BinanceApiUser("public API key", "private API key");
 BinanceTrader binanceTrader = new BinanceTrader();
 
 ILimitOrder limitOrder = binanceTrader.PlaceNewLimitOrder(user, "SHIBUSDT", Sides.SELL, 3000000, 0.00004M);
@@ -400,6 +402,7 @@ Time: 12.04.2022 18:54:30
 ### Example 3 (Place market order):
 
 ~~~C#
+BinanceApiUser user = new BinanceApiUser("public API key", "private API key");
 BinanceTrader binanceTrader = new BinanceTrader();
 
 ILimitOrder limitOrder = binanceTrader.PlaceNewMarketOrder(user, "SHIBUSDT", Sides.SELL, 410000);
@@ -424,6 +427,7 @@ Time: 12.04.2022 18:57:30
 ### Example 4 (Auto traiding):
 
 ~~~C#
+BinanceApiUser user = new BinanceApiUser("public API key", "private API key");
 BinanceTrader binanceTrader = new BinanceTrader();
 
 List<SpotPosition> positions = new List<SpotPosition>()
