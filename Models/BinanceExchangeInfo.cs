@@ -1,9 +1,6 @@
 ﻿using BinanceApiLibrary.Deserialization;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using TradingCommonTypes;
+using System.Text;
 
 namespace BinanceApiLibrary
 {
@@ -60,19 +57,27 @@ namespace BinanceApiLibrary
         public IExchangeInfo GetExchangeInfo()
         {
             string url = "https://www.binance.com/api/v3/exchangeInfo";
-
-            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(httpResponse.GetResponseStream()))
+            using (HttpClient client = new HttpClient())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             BinanceExchangeInfoDeserialization symbols = BinanceExchangeInfoDeserialization.DeserializeExchangeInfo(response);
             return ConvertToExchangeInfo(symbols);
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < ExchangeSymbols.Count; i++)
+            {
+                sb.Append($"Symbol: {ExchangeSymbols[i].Symbol}, Base Asset: {ExchangeSymbols[i].BaseAsset}, " +
+                    $"Quote Asset: {ExchangeSymbols[i].QuoteAsset}, QuotePrecision: {ExchangeSymbolsInfo[i].QuotePrecision}\n");
+            }
+
+            return sb.ToString();
         }
     }
 }

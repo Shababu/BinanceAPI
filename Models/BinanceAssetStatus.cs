@@ -1,12 +1,11 @@
-﻿using System;
-using BinanceApiLibrary.Deserialization;
+﻿using BinanceApiLibrary.Deserialization;
 using TradingCommonTypes;
 
 namespace BinanceApiLibrary
 {
     public class BinanceAssetStatus : IAssetStatus
     {
-        public string Symbol { get; set; }
+        public string Symbol { get; set; } = "";
         public decimal PriceChange { get; set; }
         public float PriceChangePercent { get; set; }
         public decimal WeightedAvgPrice { get; set; }
@@ -19,22 +18,22 @@ namespace BinanceApiLibrary
         public decimal Volume { get; set; }
         public decimal QuoteVolume { get; set; }
 
-        internal static BinanceAssetStatus ConvertToAssetStatus(BinanceAssetStatsDeserialization asset)
+        internal static BinanceAssetStatus ConvertToAssetStatus(BinanceAssetStatsDeserialization stats)
         {
             BinanceAssetStatus assetStatus = new BinanceAssetStatus()
             {
-                Symbol = asset.Symbol,
-                PriceChange = Convert.ToDecimal(asset.PriceChange.Replace(".", ",")),
-                PriceChangePercent = Convert.ToSingle(asset.PriceChangePercent.Replace(".", ",")),
-                WeightedAvgPrice = Convert.ToDecimal(asset.WeightedAvgPrice.Replace(".", ",")),
-                PrevClosePrice = Convert.ToDecimal(asset.PrevClosePrice.Replace(".", ",")),
-                LastPrice = Convert.ToDecimal(asset.LastPrice.Replace(".", ",")),
-                LastQty = Convert.ToDecimal(asset.LastQty.Replace(".", ",")),
-                OpenPrice = Convert.ToDecimal(asset.OpenPrice.Replace(".", ",")),
-                HighPrice = Convert.ToDecimal(asset.HighPrice.Replace(".", ",")),
-                LowPrice = Convert.ToDecimal(asset.LowPrice.Replace(".", ",")),
-                Volume = Convert.ToDecimal(asset.Volume.Replace(".", ",")),
-                QuoteVolume = Convert.ToDecimal(asset.QuoteVolume.Replace(".", ",")),
+                Symbol = stats.Symbol ?? "",
+                PriceChange = stats.PriceChange != null ? Convert.ToDecimal(stats.PriceChange.Replace('.', ',')) : 0,
+                PriceChangePercent = Convert.ToSingle(stats.PriceChangePercent != null ? stats.PriceChangePercent.Replace('.', ',') : 0),
+                WeightedAvgPrice = stats.WeightedAvgPrice != null ? Convert.ToDecimal(stats.WeightedAvgPrice.Replace('.', ',')) : 0,
+                PrevClosePrice = stats.PrevClosePrice != null ? Convert.ToDecimal(stats.PrevClosePrice.Replace('.', ',')) : 0,
+                LastPrice = stats.LastPrice != null ? Convert.ToDecimal(stats.LastPrice.Replace('.', ',')) : 0,
+                LastQty = stats.LastQty != null ? Convert.ToDecimal(stats.LastQty.Replace('.', ',')) : 0,
+                OpenPrice = stats.OpenPrice != null ? Convert.ToDecimal(stats.OpenPrice.Replace('.', ',')) : 0,
+                HighPrice = stats.HighPrice != null ? Convert.ToDecimal(stats.HighPrice.Replace('.', ',')) : 0,
+                LowPrice = stats.LowPrice != null ? Convert.ToDecimal(stats.LowPrice.Replace('.', ',')) : 0,
+                Volume = stats.Volume != null ? Convert.ToDecimal(stats.Volume.Replace('.', ',')) : 0,
+                QuoteVolume = stats.QuoteVolume != null ? Convert.ToDecimal(stats.QuoteVolume.Replace('.', ',')) : 0,
             };
 
             return assetStatus;
@@ -42,9 +41,9 @@ namespace BinanceApiLibrary
 
         public override string ToString()
         {
-            return string.Format($"Symbol: {Symbol}\nPriceChange: {PriceChange}\nPriceChangePercent: {PriceChangePercent}\n" +
-                $"WeightedAvgPrice: {WeightedAvgPrice}\nPrevClosePrice: {PrevClosePrice}\nLastPrice: {LastPrice}\nLastQty: {LastQty}\n" +
-                $"OpenPrice: {OpenPrice}\nHighPrice: {HighPrice}\nLowPrice: {LowPrice}\nVolume: {Volume}\nQuoteVolume: {QuoteVolume}\n");
+            return string.Format($"Symbol: {Symbol}\nPriceChange: {PriceChange}\nPriceChangePercent: {PriceChangePercent}\nWeightedAvgPrice: {WeightedAvgPrice}\n" +
+                $"PrevClosePrice: {PrevClosePrice}\nLastPrice: {LastPrice}\nLastQty: {LastQty}\nOpenPrice: {OpenPrice}\nHighPrice: {HighPrice}\n" +
+                $"LowPrice: {LowPrice}\nVolume: {Volume}\nQuoteVolume: { QuoteVolume}\n");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using BinanceApiLibrary.Deserialization;
+﻿using BinanceApiLibrary.Deserialization;
 using TradingCommonTypes;
 
 namespace BinanceApiLibrary

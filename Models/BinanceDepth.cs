@@ -14,6 +14,12 @@ namespace BinanceApiLibrary
             Quantity = quantity;
             Price = price;
         }
+        public BinanceDepth()
+        {
+            Name = "";
+            Quantity = 0;
+            Price = 0;
+        }
 
         public override string ToString()
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using TradingCommonTypes;
+﻿using TradingCommonTypes;
 
 namespace BinanceApiLibrary
 {

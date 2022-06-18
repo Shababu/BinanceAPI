@@ -4,12 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
     <RepositoryUrl>https://github.com/Shababu/BinanceAPI</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>binance.png</PackageIcon>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Library that allows users to accsess and trade on their binance account</Description>
     <Authors>Shababus</Authors>
     <Company>Shababus</Company>
@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="TradingCommonTypes" Version="1.0.0" />
+    <PackageReference Include="TradingCommonTypes" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>

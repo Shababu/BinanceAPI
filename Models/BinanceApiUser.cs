@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using TradingCommonTypes;
 
@@ -7,7 +6,7 @@ namespace BinanceApiLibrary
 {
     public class BinanceApiUser : IExchangeUser
     {
-        public string ApiPublicKey {get;}
+        public string ApiPublicKey { get; }
         public string ApiPrivateKey { get; }
 
         private readonly HMAC _hmac;
@@ -31,7 +30,7 @@ namespace BinanceApiLibrary
             return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
         }
 
-        public static DateTime ConvertTimeStampToDateTime(double timestamp)
+        internal static DateTime ConvertTimeStampToDateTime(double timestamp)
         {
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             return dateTime.AddMilliseconds(timestamp).ToLocalTime();

@@ -1,11 +1,6 @@
-﻿using System.IO;
-using System.Net;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
+﻿using Newtonsoft.Json;
 using BinanceApiLibrary.Deserialization;
 using TradingCommonTypes;
-using System.Linq;
 
 namespace BinanceApiLibrary
 {
@@ -14,15 +9,11 @@ namespace BinanceApiLibrary
         public IAssetStatus Get24HourStatOnAsset(string symbol)
         {
             string url = $"https://api.binance.com/api/v3/ticker/24hr?symbol={symbol}";
-
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             return BinanceAssetStatus.ConvertToAssetStatus(BinanceAssetStatsDeserialization.DeserializeAssetStats(response));
@@ -30,53 +21,43 @@ namespace BinanceApiLibrary
         public decimal GetPrice(string pairSymbol)
         {
             string url = $"https://api.binance.com/api/v3/ticker/price?symbol={pairSymbol}";
-
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
-            Cryptocurrency cryptoInfo = JsonConvert.DeserializeObject<Cryptocurrency>(response);
-            return cryptoInfo.Price;
+            var currentPrice = JsonConvert.DeserializeObject<Cryptocurrency>(response);
+
+            if (currentPrice != null)
+            {
+                return currentPrice.Price;
+            }
+            else return 0;
         }
         public List<Cryptocurrency> GetPrice()
         {
             string url = $"https://api.binance.com/api/v3/ticker/price";
-
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             return JsonConvert.DeserializeObject<List<Cryptocurrency>>(response);
         }
-        public string GetTimestamp()
-        {
-            return Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds).ToString();
-        }        
         public List<IAssetStatus> Get24HourStatOnAllAssets()
         {
             string url = $"https://api.binance.com/api/v3/ticker/24hr";
-  
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
+
             List<IAssetStatus> assets = new List<IAssetStatus>();
             string[] assetsJson = response.Split(new string[] { "}," }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -97,25 +78,11 @@ namespace BinanceApiLibrary
         public List<ICandle> GetCandles(string symbol, string interval, int limit)
         {
             string url = $"https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}";
-            if(limit > 0)
-            {
-                url += $"&limit={limit}";
-            }
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse;
-            try
-            {
-                HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-            }
-            catch (Exception)
-            {
-                return new List<ICandle>();
-            }
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             List<ICandle> normalCandles = new List<ICandle>();
@@ -131,15 +98,11 @@ namespace BinanceApiLibrary
         public List<IDepth> GetDepth(string pairSymbol, int limit = 100)
         {
             string url = $"https://www.binance.com/api/v3/depth?symbol={pairSymbol}&limit={limit}";
-
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
             string response;
 
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new())
             {
-                response = reader.ReadToEnd();
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             List<string> info = response.Split(':').ToList();
@@ -172,6 +135,10 @@ namespace BinanceApiLibrary
             }
 
             return depth;
+        }
+        internal string GetTimestamp()
+        {
+            return Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds).ToString();
         }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using TradingCommonTypes;
 
 namespace BinanceApiLibrary
@@ -21,13 +17,10 @@ namespace BinanceApiLibrary
             string parameters = "recvWindow=10000&symbol=" + symbol + "&timestamp=" + binanceMarketInfo.GetTimestamp();
             url += parameters + "&signature=" + user.Sign(parameters);
 
-            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
-            HTTPrequest.Headers.Add("X-MBX-APIKEY", user.ApiPublicKey);
-            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
-
-            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            using (HttpClient client = new HttpClient())
             {
-                response = reader.ReadToEnd();
+                client.DefaultRequestHeaders.Add("X-MBX-APIKEY", user.ApiPublicKey);
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
             List<object> trades = JsonConvert.DeserializeObject<List<object>>(response);

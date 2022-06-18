@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using BinanceApiLibrary.Deserialization;
+﻿using BinanceApiLibrary.Deserialization;
 using TradingCommonTypes;
-using System.Linq;
 
 namespace BinanceApiLibrary 
 {
@@ -33,7 +30,7 @@ namespace BinanceApiLibrary
             return string.Format($"Asset {Asset}\nTotal: {Total}\nFree: {Free}\nLocked: {Locked}\nRubValue: {RubValue}\n");
         }
 
-        public static void CountRubValue(List<ICryptoBalance> balances)
+        internal static void CountRubValue(List<ICryptoBalance> balances)
         {
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
             List<Cryptocurrency> allPairs = binanceMarketInfo.GetPrice();
