@@ -447,6 +447,8 @@ foreach (var position in positions)
     Console.WriteLine(position);
 }
 
+binanceTrader.PlaceInitialOrders(user, positions);
+
 while (true)
 {
     binanceTrader.AutoTrade(user, positions, false);
