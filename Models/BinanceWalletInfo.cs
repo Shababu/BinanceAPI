@@ -60,11 +60,18 @@ namespace BinanceApiLibrary
             {
                 parameters += $"&startTime={binanceMarketInfo.GetTimestamp(startTime)}";
 
-                if(endTime == default(DateTime))
+                if(endTime == default(DateTime) || endTime < startTime)
                 {
                     endTime = startTime.AddDays(90);
-                    parameters += $"&endTime={binanceMarketInfo.GetTimestamp(endTime)}";
                 }
+                else
+                {
+                    if (endTime.Subtract(startTime).Days > 90)
+                    {
+                        endTime = startTime.AddDays(90);
+                    }
+                }
+                parameters += $"&endTime={binanceMarketInfo.GetTimestamp(endTime)}";
             }
 
 
