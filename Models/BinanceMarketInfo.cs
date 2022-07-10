@@ -136,9 +136,9 @@ namespace BinanceApiLibrary
 
             return depth;
         }
-        internal string GetTimestamp()
+        internal string GetTimestamp(DateTime dateTime)
         {
-            return Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds).ToString();
+            return Math.Round((dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds).ToString();
         }
     }
 }

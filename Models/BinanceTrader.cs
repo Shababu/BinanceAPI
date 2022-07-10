@@ -13,7 +13,7 @@ namespace BinanceApiLibrary
             string baseUrl = "https://api.binance.com/";
             string orderUrl = "api/v3/order?";
             string url = baseUrl + orderUrl;
-            string parameters = $"symbol={symbol}&side={side}&type=LIMIT&timeInForce=GTC&quantity={quantity.ToString().Replace(",",".")}&price={price.ToString().Replace(",", ".")}&recvWindow=20000&timestamp=" + binanceMarketInfo.GetTimestamp();
+            string parameters = $"symbol={symbol}&side={side}&type=LIMIT&timeInForce=GTC&quantity={quantity.ToString().Replace(",",".")}&price={price.ToString().Replace(",", ".")}&recvWindow=20000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             Thread.Sleep(1000);
@@ -40,7 +40,7 @@ namespace BinanceApiLibrary
             string baseUrl = "https://api.binance.com/";
             string orderUrl = "api/v3/order?";
             string url = baseUrl + orderUrl;
-            string parameters = $"symbol={symbol}&side={side}&type=MARKET&quantity={quantity.ToString().Replace(",", ".")}&recvWindow=20000&timestamp=" + binanceMarketInfo.GetTimestamp();
+            string parameters = $"symbol={symbol}&side={side}&type=MARKET&quantity={quantity.ToString().Replace(",", ".")}&recvWindow=20000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             using (HttpClient client = new HttpClient())
@@ -60,7 +60,7 @@ namespace BinanceApiLibrary
             string baseUrl = "https://api.binance.com/";
             string orderUrl = "api/v3/order?";
             string url = baseUrl + orderUrl;
-            string parameters = $"symbol={symbol}&orderId={orderId}&timestamp=" + bitrueMarketInfo.GetTimestamp();
+            string parameters = $"symbol={symbol}&orderId={orderId}&timestamp=" + bitrueMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             string response;
@@ -84,7 +84,7 @@ namespace BinanceApiLibrary
             string baseUrl = "https://api.binance.com/";
             string orderUrl = "api/v3/order?";
             string url = baseUrl + orderUrl;
-            string parameters = $"symbol={symbol}&orderId={orderId}&recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp();
+            string parameters = $"symbol={symbol}&orderId={orderId}&recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             using (HttpClient client = new HttpClient())
@@ -109,7 +109,7 @@ namespace BinanceApiLibrary
             string baseUrl = "https://api.binance.com/";
             string orderUrl = "api/v3/openOrders?";
             string url = baseUrl + orderUrl;
-            string parameters = $"symbol={symbol}&recvWindow=5000&timestamp=" + bitrueMarketInfo.GetTimestamp();
+            string parameters = $"symbol={symbol}&recvWindow=5000&timestamp=" + bitrueMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             using (HttpClient client = new HttpClient())

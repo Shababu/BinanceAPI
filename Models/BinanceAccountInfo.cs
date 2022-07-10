@@ -14,7 +14,7 @@ namespace BinanceApiLibrary
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
 
             string url = BaseUrl + TradeUrl;
-            string parameters = "recvWindow=10000&symbol=" + symbol + "&timestamp=" + binanceMarketInfo.GetTimestamp();
+            string parameters = "recvWindow=10000&symbol=" + symbol + "&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
             using (HttpClient client = new HttpClient())
