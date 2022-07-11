@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BinanceApiLibrary.Deserialization
+﻿namespace BinanceApiLibrary.Deserialization
 {
     internal class BinanceCandlestickDeserialization
     {
@@ -13,7 +8,6 @@ namespace BinanceApiLibrary.Deserialization
         public string Low { get; set; }
         public string Close { get; set; }
         public string Volume { get; set; }
-
 
         public static List<BinanceCandlestickDeserialization> DeserializeCandlestick(string jsonString)
         {

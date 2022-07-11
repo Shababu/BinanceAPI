@@ -1,20 +1,18 @@
 ﻿using BinanceApiLibrary.Deserialization;
-using Newtonsoft.Json;
 using TradingCommonTypes;
 
 namespace BinanceApiLibrary
 {
     public class BinanceWalletInfo : IWalletInfo
     {
-        public string BaseUrl => "https://api.binance.com/";
-        public string AccountInfoUrl => "api/v3/account?";
+        private readonly string baseUrl = "https://api.binance.com/";
 
         public List<ICryptoBalance> GetWalletInfo(IExchangeUser user)
         {
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
             string response;
 
-            string url = BaseUrl + AccountInfoUrl;
+            string url = baseUrl + "api/v3/account?";
             string parameters = "recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
@@ -46,10 +44,9 @@ namespace BinanceApiLibrary
 
             return totalBalance;
         }
-
-        public List<BinanceDeposit> GetRecentDeposits(IExchangeUser user, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
+        public List<IDeposit> GetRecentDeposits(IExchangeUser user, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
         {
-            string url = BaseUrl + "sapi/v1/capital/withdraw/history?";
+            string url = baseUrl + "sapi/v1/capital/withdraw/history?";
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
 
             string response;
@@ -83,7 +80,15 @@ namespace BinanceApiLibrary
                 response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
             }
 
-            return JsonConvert.DeserializeObject<List<BinanceDeposit>>(response);
+            List<BinanceDepositDeserialization> rawDeposits = BinanceDepositDeserialization.DeserializeDeposit(response);
+            List<IDeposit> result = new List<IDeposit>();
+
+            foreach (var rawDeposit in rawDeposits)
+            {
+                result.Add(BinanceDeposit.ConvertToDeposit(rawDeposit));
+            }
+
+            return result;
         }
     }
 }

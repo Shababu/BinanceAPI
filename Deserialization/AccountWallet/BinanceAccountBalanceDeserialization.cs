@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BinanceApiLibrary.Deserialization
+﻿namespace BinanceApiLibrary.Deserialization
 {
     internal class BinanceAccountBalanceDeserialization
     {

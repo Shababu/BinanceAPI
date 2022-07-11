@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace BinanceApiLibrary.Deserialization
 {
@@ -31,7 +29,6 @@ namespace BinanceApiLibrary.Deserialization
             }
             return limitOrder;
         }
-
         public static List<BinanceLimitOrderDeserialization> DeserializeLimitOrders(string jsonString)
         {
             object[] trades = JsonConvert.DeserializeObject<object[]>(jsonString);
@@ -44,7 +41,6 @@ namespace BinanceApiLibrary.Deserialization
             }
             return orders;
         }
-
         public static string ConvertOrderTime(string timeString)
         {
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
