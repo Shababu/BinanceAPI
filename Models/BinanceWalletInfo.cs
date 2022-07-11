@@ -48,7 +48,6 @@ namespace BinanceApiLibrary
         {
             string url = baseUrl + "sapi/v1/capital/withdraw/history?";
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
-
             string response;
 
             string parameters = "recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
@@ -57,6 +56,7 @@ namespace BinanceApiLibrary
             {
                 parameters += $"&coin={coin}";
             }
+
             if (startTime != default(DateTime))
             {
                 parameters += $"&startTime={binanceMarketInfo.GetTimestamp(startTime)}";
@@ -90,6 +90,55 @@ namespace BinanceApiLibrary
             foreach (var rawDeposit in rawDeposits)
             {
                 result.Add(BinanceDeposit.ConvertToDeposit(rawDeposit));
+            }
+
+            return result;
+        }
+        public List<IWithdrawal> GetRecentWithdrawals(IExchangeUser user, string coin = null, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
+        {
+            string url = baseUrl + "sapi/v1/capital/withdraw/history?";
+            BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
+            string response;
+
+            string parameters = "recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
+
+            if (coin != null)
+            {
+                parameters += $"&coin={coin}";
+            }
+
+            if (startTime != default(DateTime))
+            {
+                parameters += $"&startTime={binanceMarketInfo.GetTimestamp(startTime)}";
+
+                if (endTime == default(DateTime) || endTime < startTime)
+                {
+                    endTime = startTime.AddDays(90);
+                }
+                else
+                {
+                    if (endTime.Subtract(startTime).Days > 90)
+                    {
+                        endTime = startTime.AddDays(90);
+                    }
+                }
+                parameters += $"&endTime={binanceMarketInfo.GetTimestamp(endTime)}";
+            }
+
+            url += parameters + "&signature=" + user.Sign(parameters);
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("X-MBX-APIKEY", user.ApiPublicKey);
+                response = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+            }
+
+            List<BinanceWithdrawalDeserialization> rawWithdrawals = BinanceWithdrawalDeserialization.DeserializeWithdrawal(response);
+            List<IWithdrawal> result = new List<IWithdrawal>();
+
+            foreach (var rawWithdrawal in rawWithdrawals)
+            {
+                result.Add(BinanceWithdrawal.ConvertToWithdrawal(rawWithdrawal));
             }
 
             return result;

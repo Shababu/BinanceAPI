@@ -4,7 +4,7 @@ using TradingCommonTypes;
 
 namespace BinanceApiLibrary
 {
-    public class BinanceDeposit : IDeposit
+    public class BinanceWithdrawal : IWithdrawal
     {
         public string Id { get; set; }
         public decimal Amount { get; set; }
@@ -18,32 +18,30 @@ namespace BinanceApiLibrary
         public int TransferType { get; set; }
         public string Info { get; set; }
         public int ConfirmNo { get; set; }
-        public int WalletType { get; set; }
         public string TxKey { get; set; }
         public string AddressTag { get; set; }
 
-        internal static BinanceDeposit ConvertToDeposit(BinanceDepositDeserialization depositRaw)
+        internal static BinanceWithdrawal ConvertToWithdrawal(BinanceWithdrawalDeserialization withdrawalRaw)
         {
-            BinanceDeposit deposit = new BinanceDeposit()
+            BinanceWithdrawal withdrawal = new BinanceWithdrawal()
             {
-                Id = depositRaw.Id,
-                Amount = Convert.ToDecimal(depositRaw.Amount.Replace('.', ',')),
-                TransactionFee = depositRaw.TransactionFee,
-                Coin = depositRaw.Coin,
-                Status = Convert.ToInt32(depositRaw.Status),
-                Address = depositRaw.Address,
-                TxId = depositRaw.TxId,
-                ApplyTime = DateTime.Parse(depositRaw.ApplyTime),
-                Network = depositRaw.Network,
-                TransferType = Convert.ToInt32(depositRaw.TransferType),
-                Info = depositRaw.Info,
-                ConfirmNo = Convert.ToInt32(depositRaw.ConfirmNo),
-                WalletType = Convert.ToInt32(depositRaw.WalletType),
-                TxKey = depositRaw.TxKey,
-                AddressTag = depositRaw.AddressTag,
+                Id = withdrawalRaw.Id,
+                Amount = Convert.ToDecimal(withdrawalRaw.Amount.Replace('.', ',')),
+                TransactionFee = withdrawalRaw.TransactionFee,
+                Coin = withdrawalRaw.Coin,
+                Status = Convert.ToInt32(withdrawalRaw.Status),
+                Address = withdrawalRaw.Address,
+                TxId = withdrawalRaw.TxId,
+                ApplyTime = DateTime.Parse(withdrawalRaw.ApplyTime),
+                Network = withdrawalRaw.Network,
+                TransferType = Convert.ToInt32(withdrawalRaw.TransferType),
+                Info = withdrawalRaw.Info,
+                ConfirmNo = Convert.ToInt32(withdrawalRaw.ConfirmNo),
+                TxKey = withdrawalRaw.TxKey,
+                AddressTag = withdrawalRaw.AddressTag,
             };
 
-            return deposit;
+            return withdrawal;
         }
 
         public override string ToString()
@@ -73,8 +71,6 @@ namespace BinanceApiLibrary
             sb.Append(Info);
             sb.Append($"\nConfirmNo: ");
             sb.Append(ConfirmNo);
-            sb.Append($"\nWalletType: ");
-            sb.Append(WalletType);
             sb.Append($"\nTxKey: ");
             sb.Append(TxKey);
             sb.Append($"\nAddressTag: ");

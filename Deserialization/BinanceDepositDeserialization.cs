@@ -21,6 +21,11 @@ namespace BinanceApiLibrary.Deserialization
         public string TxKey { get; set; }
         public string AddressTag { get; set; }
 
+        internal static List<BinanceDepositDeserialization> DeserializeDeposit(string jsonString)
+        {
+            return JsonConvert.DeserializeObject<List<BinanceDepositDeserialization>>(jsonString);
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -57,11 +62,6 @@ namespace BinanceApiLibrary.Deserialization
             sb.Append($"\n");
 
             return sb.ToString();
-        }
-
-        internal static List<BinanceDepositDeserialization> DeserializeDeposit(string jsonString)
-        {
-            return JsonConvert.DeserializeObject<List<BinanceDepositDeserialization>>(jsonString);
         }
     }
 }
