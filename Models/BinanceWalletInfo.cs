@@ -44,7 +44,7 @@ namespace BinanceApiLibrary
 
             return totalBalance;
         }
-        public List<IDeposit> GetRecentDeposits(IExchangeUser user, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
+        public List<IDeposit> GetRecentDeposits(IExchangeUser user, string coin = null, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
         {
             string url = baseUrl + "sapi/v1/capital/withdraw/history?";
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
@@ -53,6 +53,10 @@ namespace BinanceApiLibrary
 
             string parameters = "recvWindow=10000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
 
+            if(coin != null)
+            {
+                parameters += $"&coin={coin}";
+            }
             if (startTime != default(DateTime))
             {
                 parameters += $"&startTime={binanceMarketInfo.GetTimestamp(startTime)}";

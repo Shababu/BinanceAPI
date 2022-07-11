@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/Shababu/BinanceAPI</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>binance.png</PackageIcon>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>Library that allows users to accsess and trade on their binance account</Description>
     <Authors>Shababus</Authors>
     <Company>Shababus</Company>
@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="TradingCommonTypes" Version="1.1.6" />
+    <PackageReference Include="TradingCommonTypes" Version="1.1.7" />
   </ItemGroup>
 
   <ItemGroup>
