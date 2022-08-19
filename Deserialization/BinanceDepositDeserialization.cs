@@ -12,13 +12,9 @@ namespace BinanceApiLibrary.Deserialization
         public string Status { get; set; }
         public string Address { get; set; }
         public string TxId { get; set; }
-        public string ApplyTime { get; set; }
+        public string InsertTime { get; set; }
         public string Network { get; set; }
         public string TransferType { get; set; }
-        public string Info { get; set; }
-        public string ConfirmNo { get; set; }
-        public string WalletType { get; set; }
-        public string TxKey { get; set; }
         public string AddressTag { get; set; }
 
         internal static List<BinanceDepositDeserialization> DeserializeDeposit(string jsonString)
@@ -44,19 +40,11 @@ namespace BinanceApiLibrary.Deserialization
             sb.Append($"\nTxId: ");
             sb.Append(TxId);
             sb.Append($"\nApplyTime: ");
-            sb.Append(ApplyTime);
+            sb.Append(InsertTime);
             sb.Append($"\nNetwork: ");
             sb.Append(Network);
             sb.Append($"\nTransferType: ");
             sb.Append(TransferType);
-            sb.Append($"\nInfo: ");
-            sb.Append(Info);
-            sb.Append($"\nConfirmNo: ");
-            sb.Append(ConfirmNo);
-            sb.Append($"\nWalletType: ");
-            sb.Append(WalletType);
-            sb.Append($"\nTxKey: ");
-            sb.Append(TxKey);
             sb.Append($"\nAddressTag: ");
             sb.Append(AddressTag);
             sb.Append($"\n");

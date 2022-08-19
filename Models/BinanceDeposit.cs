@@ -16,30 +16,22 @@ namespace BinanceApiLibrary
         public DateTime ApplyTime { get; set; }
         public string Network { get; set; }
         public int TransferType { get; set; }
-        public string Info { get; set; }
-        public int ConfirmNo { get; set; }
-        public int WalletType { get; set; }
-        public string TxKey { get; set; }
         public string AddressTag { get; set; }
 
         internal static BinanceDeposit ConvertToDeposit(BinanceDepositDeserialization depositRaw)
         {
             BinanceDeposit deposit = new BinanceDeposit()
             {
-                Id = depositRaw.Id,
+                Id = depositRaw.TxId,
                 Amount = Convert.ToDecimal(depositRaw.Amount.Replace('.', ',')),
                 TransactionFee = depositRaw.TransactionFee,
                 Coin = depositRaw.Coin,
                 Status = Convert.ToInt32(depositRaw.Status),
                 Address = depositRaw.Address,
                 TxId = depositRaw.TxId,
-                ApplyTime = DateTime.Parse(depositRaw.ApplyTime),
+                ApplyTime = BinanceApiUser.ConvertTimeStampToDateTime(Convert.ToDouble(depositRaw.InsertTime)),
                 Network = depositRaw.Network,
                 TransferType = Convert.ToInt32(depositRaw.TransferType),
-                Info = depositRaw.Info,
-                ConfirmNo = Convert.ToInt32(depositRaw.ConfirmNo),
-                WalletType = Convert.ToInt32(depositRaw.WalletType),
-                TxKey = depositRaw.TxKey,
                 AddressTag = depositRaw.AddressTag,
             };
 
@@ -69,14 +61,6 @@ namespace BinanceApiLibrary
             sb.Append(Network);
             sb.Append($"\nTransferType: ");
             sb.Append(TransferType);
-            sb.Append($"\nInfo: ");
-            sb.Append(Info);
-            sb.Append($"\nConfirmNo: ");
-            sb.Append(ConfirmNo);
-            sb.Append($"\nWalletType: ");
-            sb.Append(WalletType);
-            sb.Append($"\nTxKey: ");
-            sb.Append(TxKey);
             sb.Append($"\nAddressTag: ");
             sb.Append(AddressTag);
             sb.Append("\n");

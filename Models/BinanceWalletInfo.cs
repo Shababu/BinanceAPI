@@ -46,7 +46,7 @@ namespace BinanceApiLibrary
         }
         public List<IDeposit> GetRecentDeposits(IExchangeUser user, string coin = null, DateTime startTime = default(DateTime), DateTime endTime = default(DateTime))
         {
-            string url = baseUrl + "sapi/v1/capital/withdraw/history?";
+            string url = baseUrl + "sapi/v1/capital/deposit/hisrec?";
             BinanceMarketInfo binanceMarketInfo = new BinanceMarketInfo();
             string response;
 
