@@ -16,8 +16,6 @@ namespace BinanceApiLibrary
             string parameters = $"symbol={symbol}&side={side}&type=LIMIT&timeInForce=GTC&quantity={quantity.ToString().Replace(",",".")}&price={price.ToString().Replace(",", ".")}&recvWindow=20000&timestamp=" + binanceMarketInfo.GetTimestamp(DateTime.UtcNow);
             url += parameters + "&signature=" + user.Sign(parameters);
 
-            Thread.Sleep(1000);
-
             using (HttpClient client = new HttpClient())
             {
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url);
